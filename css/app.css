@@ -1,0 +1,329 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: 'Kaushan Script', Tangerine;
+    font-weight: 300;
+    color:  #cc7a00
+
+}
+
+/*
+ * Styles for the deck of cards
+ */
+
+.deck {
+    width: 660px;
+    min-height: 680px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+
+.deck .card {
+    height: 125px;
+    width: 125px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.deck .card.open {
+    transform: rotateY(0);
+    background: #002266;
+    cursor: default;
+    animation-name:flipy ;
+    animation-duration: .70s;
+    -webkit-backface-visibility : visible;
+    backface-visibility : visible
+}
+
+@keyframes flipy{
+    from {
+        transform: perspective(300px)  rotate3d(0 , 1 , 0 , 90deg )  ;
+        animation-timing-function: ease-out;
+        opacity: 0;
+    }  
+
+    30% {
+        transform: perspective(300px)  rotate3d(0 , 1 , 0 , 90deg )  ;
+        animation-timing-function: ease-out;
+    }
+
+    60% {
+        transform: perspective(300px)  rotate3d(0 , 1 , 0 , 90deg )  ;
+        animation-timing-function: ease-out;
+
+    }
+    90% {
+        transform: perspective(300px)  rotate3d(0 , 1 , 0 , 90deg )  ;
+
+    }
+    
+     to {
+
+        transform: perspective(300px)   ;
+        
+     }
+}
+
+
+.deck .card.show {
+    font-size: 33px;
+}
+
+.deck .card.match {
+    cursor: default;
+    
+    font-size: 33px;
+    animation-name: ruby;
+    animation-duration: .80s;
+    -webkit-backface-visibility : visible;
+    backface-visibility : visible ;
+    background: #222A0A;
+
+}
+
+
+@keyframes ruby{
+        from {
+                transform: scale3d(1,1,1) ;
+
+        }  
+
+        30% {
+              transform: scale3d(1.50,0.70,1) ;
+        }
+
+        40% {
+             transform: scale3d(0.70,1.50,1) ;
+
+        }
+        50% {
+            transform: scale3d(1.20,0.80,1) ; 
+
+        }
+       60% {
+            transform: scale3d(0.90,1.10,1) ;  
+
+        }
+        75% {
+            transform: scale3d(1.10,0.90,1) ; 
+
+        }
+    
+        to {
+
+           transform: scale3d(1,1,1) ;        
+        }
+
+
+}
+.deck .card.unmatched{
+   
+    animation-name: unmat ;
+    animation-duration:0.80s ;
+    -webkit-backface-visibility : visible;
+    backface-visibility : visible;
+     background: #868A08;
+}
+
+@keyframes unmat{
+    from {
+        transform: scale3d(1,1,1) ;
+    }
+    50% {
+        transform: scale3d(1.5,1.5,1.5) ;
+    }
+    to {
+        transform: scale3d(1,1,1) ;
+    }
+
+}
+
+/*
+ * Styles for the Score Panel
+ */
+
+.score-panel {
+    text-align: left;
+    width: 345px;
+    margin-bottom: 10px;
+}
+
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.fa-star {
+    color:#3ADF00;
+}
+.timer{
+    dispaly:inline-block;
+    color: #0101DF
+}
+.score-panel .stars li {
+    list-style: none;
+    display: inline-block;
+}
+
+.score-panel .restart {
+    float: right;
+    cursor: pointer;
+}
+
+
+/*responsive */
+@media only screen and (max-width :800px){
+    .deck .card {
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+
+    }
+    .deck{
+        width:400px;
+    }
+}
+
+@media only screen and (max-width :500px){
+    .deck .card {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+
+    }
+    .deck{
+        width:300px;
+    }
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+  
+.popup {
+    margin: 10px auto;
+    padding: 10px;
+    background:  #000d1a;
+    border-radius: 5px;
+    width: 50%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    font-family: Tahoma, Arial, sans-serif;
+}
+  
+.popup h2 {
+    margin-top: 2;
+    color: #ff9900;
+    font-family: 'Kaushan Script', Tangerine;
+    
+}
+
+.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 300ms;
+    font-size: 30px;
+    text-decoration: none;
+    color: #ff9900;
+}
+
+.popup .close:hover {
+    color: #ccccb3;
+}
+
+.popup .text1,
+.text2 {
+    max-height: 30%;
+    overflow: auto;
+    text-align: center;
+    color: #ffffff
+}
+
+.show {
+    visibility: visible !important;
+    opacity: 100 !important;
+}
+
+#starRating li {
+    display: inline-block;
+}
+
+#play-again {
+    background-color: #33331a;
+    padding: 0.7rem 1rem;
+    font-size: 1.1rem;
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    font-family: 'Kaushan Script', Tangerine;
+    color: #ff9900;
+}
+
+.deck .card.disabled {
+    pointer-events: none;
+}
+
+
+
+
+
+
